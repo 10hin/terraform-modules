@@ -16,14 +16,14 @@ locals {
   aws_region    = data.aws_region.current.name
 
   aws_az_ids   = slice(data.aws_availability_zones.available.zone_ids, 0, var.availability_zone_count)
-  aws_az_names = slice(data.aws_availability_zones.available.zone_names, 0, var.availability_zone_count)
+  aws_az_names = slice(data.aws_availability_zones.available.names, 0, var.availability_zone_count)
 
   subnet_types = ["private", "public"]
   subnet_cidr_blocks = {
     for subnet_type_idx, subnet_type in local.subnet_types :
     subnet_type => {
       for az_idx, az_id in local.aws_az_ids :
-      az_id => cidrsubnet(var.var.cidr_block, ceil(log(var.var.availability_zone_count * length(local.subnet_types), 2)), subnet_type_idx * length(local.subnet_types) + az_idx)
+      az_id => cidrsubnet(var.cidr_block, ceil(log(var.availability_zone_count * length(local.subnet_types), 2)), subnet_type_idx * length(local.subnet_types) + az_idx)
     }
   }
 
@@ -183,6 +183,19 @@ resource "aws_route" "public_to_igw" {
   route_table_id         = aws_route_table.public[each.key].id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.this.id
+}
+
+resource "aws_network_acl" "public" {
+  for_each = toset(local.aws_az_ids)
+
+  vpc_id = aws_vpc.this.id
+}
+
+resource "aws_network_acl_association" "public" {
+  for_each = toset(local.aws_az_ids)
+
+  subnet_id      = aws_subnet.public[each.key].id
+  network_acl_id = aws_network_acl.public[each.key].id
 }
 
 resource "aws_network_acl_rule" "public_allow_all_ingress" {
