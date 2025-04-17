@@ -23,7 +23,7 @@ locals {
     for subnet_type_idx, subnet_type in local.subnet_types :
     subnet_type => {
       for az_idx, az_id in local.aws_az_ids :
-      az_id => cidrsubnet(var.cidr_block, ceil(log(var.availability_zone_count * length(local.subnet_types), 2)), subnet_type_idx * length(local.subnet_types) + az_idx)
+      az_id => cidrsubnet(var.cidr_block, ceil(log(var.availability_zone_count * length(local.subnet_types), 2)), subnet_type_idx * var.availability_zone_count + az_idx)
     }
   }
 
