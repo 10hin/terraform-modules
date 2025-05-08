@@ -18,8 +18,9 @@ runs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        current_release_commit="$(gh api repos/terraform-docs/terraform-docs/git/ref/tags/${{ inputs.release }} --jq .object.sha)"
-        if [[ "${current_release_commit}" = '${{ inputs.release-commit }}' ]]
+        release_tag_sha="$(gh api repos/terraform-docs/terraform-docs/git/ref/tags/${{ inputs.release }} --jq .object.sha)"
+        release_commit_sha="$(gh api "repos/terraform-docs/terraform-docs/git/tags/${release_tag_sha}" --jq .object.sha)"
+        if [[ "${release_commit_sha}" = '${{ inputs.release-commit }}' ]]
         then
           echo "Release commit hash is expected"
         else
