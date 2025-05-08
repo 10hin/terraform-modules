@@ -15,6 +15,8 @@ runs:
   steps:
     - name: Check release commit hash
       shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         current_release_commit="$(gh api repos/terraform-docs/terraform-docs/git/ref/tags/${{ inputs.release }} --jq .object.sha)"
         if [[ "${current_release_commit}" = '${{ inputs.release-commit }}' ]]
