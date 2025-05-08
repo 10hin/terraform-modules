@@ -1,0 +1,38 @@
+name: Auto-Generate
+
+on:
+  - push
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        # actions/checkout@v4.2.2 at 2025-05-09
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Set up terraform
+        # actions/setup-terraform@v3.1.2 at 2025-05-09
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
+      - name: format
+        run: terraform fmt -recursive
+      - name: commit for format
+        run: |
+          if git diff --exit-code; then
+            echo "No changes to commit"
+          else
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git config user.name 'github-actions[bot]'
+            git commit -m 'apply terraform fmt'
+          fi
+      - name: generate API.md
+        # terraform-docs/gh-actions@1.4.0 at 2025-05-09
+        uses: terraform-docs/gh-actions@7f8a667921aee9dd89af0f3c6dfa6160d7ebd8bb
+        with:
+          find-dir: './'
+          git-push: 'true'
+          output-file: 'API.md'
+          recursive: 'true'
