@@ -36,4 +36,3 @@ jobs:
           find-dir: './'
           git-push: 'true'
           output-file: 'API.md'
-          recursive: 'true'
