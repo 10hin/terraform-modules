@@ -1,0 +1,36 @@
+name: Setup terraform-docs
+description: Set up terraform-docs command
+
+inputs:
+  release:
+    description: 'Release version of terraform-docs'
+    required: true
+  release-commit:
+   description: 'Release commit of terraform-docs'
+   required: true
+outputs: {}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check release commit hash
+      shell: bash
+      run: |
+        current_release_commit="$(gh api repos/terraform-docs/terraform-docs/git/ref/tags/${{ inputs.release }} --jq .object.sha)"
+        if [[ "${current_release_commit}" = '${{ inputs.release-commit }}' ]]
+        then
+          echo "Release commit hash is expected"
+        else
+          echo "Release commit hash is UNEXPECTED; Supply chain attack is suspected"
+          exit 1
+        fi
+    - name: Download terraform-docs binary
+      shell: bash
+      working-directory: /tmp
+      run: |
+        curl -sfLO 'https://github.com/terraform-docs/terraform-docs/releases/download/${{ inputs.release }}/terraform-docs-${{ inputs.release }}-linux-amd64.tar.gz'
+        curl -sfLO 'https://github.com/terraform-docs/terraform-docs/releases/download/${{ inputs.release }}/terraform-docs-${{ inputs.release }}.sha256sum'
+        sha256sum --ignore-missing -c terraform-docs-${{ inputs.release }}.sha256sum
+        tar -xzf terraform-docs-${{ inputs.release }}-linux-amd64.tar.gz
+        chmod +x terraform-docs
+        mv terraform-docs /usr/local/bin/terraform-docs
