@@ -28,20 +28,24 @@ jobs:
       - name: format
         run: terraform fmt -recursive
       - name: commit for format
-        run: |
-          if git diff --exit-code; then
-            echo "No changes to commit"
-          else
-            git config user.email 'github-actions[bot]@users.noreply.github.com'
-            git config user.name 'github-actions[bot]'
-            git add .
-            git commit -m 'apply terraform fmt'
-            git push
-          fi
-      - name: generate API.md
-        # terraform-docs/gh-actions@1.4.0 at 2025-05-09
-        uses: terraform-docs/gh-actions@7f8a667921aee9dd89af0f3c6dfa6160d7ebd8bb
+        uses: ./.github/actions/commit-push-if-changed
         with:
-          find-dir: './'
-          git-push: 'true'
-          output-file: 'API.md'
+          message-for-no-changes: No changes to commit
+          commit-user-name: github-actions[bot]
+          commit-user-email: github-actions[bot]@users.noreply.github.com
+          commit-message: apply terraform fmt
+      - name: generate API.md
+        run: |
+          find . -name '*.tf' -not -path '*/.terraform/*' \
+            | sort -u \
+            | while read path_module
+              do
+                terraform-docs --output-file-format markdown table --output-file API.md "${path_module}"
+              done
+      - name: commit for generated docs
+        uses: ./.github/actions/commit-push-if-changed
+        with:
+          message-for-no-changes: No changes to commit
+          commit-user-name: github-actions[bot]
+          commit-user-email: github-actions[bot]@users.noreply.github.com
+          commit-message: terraform-docs document updated
