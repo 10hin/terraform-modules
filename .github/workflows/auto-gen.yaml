@@ -8,7 +8,7 @@ defaults:
     shell: bash
 
 permissions:
-  content: write
+  contents: write
 
 jobs:
   generate:
