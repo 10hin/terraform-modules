@@ -110,6 +110,12 @@ resource "aws_network_acl" "private" {
   for_each = toset(local.aws_az_ids)
 
   vpc_id = aws_vpc.this.id
+  tags = {
+    Name = "${var.base_name}-acl-private-${local.aws_az_names[index(local.aws_az_ids, each.key)]}"
+    AvailabilityZone   = local.aws_az_names[index(local.aws_az_ids, each.key)]
+    AvailabilityZoneID = each.key
+    SubnetType         = "private"
+  }
 }
 
 resource "aws_network_acl_association" "private" {
@@ -189,6 +195,12 @@ resource "aws_network_acl" "public" {
   for_each = toset(local.aws_az_ids)
 
   vpc_id = aws_vpc.this.id
+  tags = {
+    Name = "${var.base_name}-acl-public-${local.aws_az_names[index(local.aws_az_ids, each.key)]}"
+    AvailabilityZone   = local.aws_az_names[index(local.aws_az_ids, each.key)]
+    AvailabilityZoneID = each.key
+    SubnetType         = "public"
+  }
 }
 
 resource "aws_network_acl_association" "public" {
@@ -224,6 +236,11 @@ resource "aws_eip" "natgw" {
   for_each = toset(slice(local.aws_az_ids, 0, local.nat_gateway_count))
 
   domain = "vpc"
+  tags = {
+    Name = "${var.base_name}-natgw-eip-${local.aws_az_names[index(local.aws_az_ids, each.key)]}"
+    AvailabilityZone   = local.aws_az_names[index(local.aws_az_ids, each.key)]
+    AvailabilityZoneID = each.key
+  }
 }
 
 resource "aws_nat_gateway" "this" {
@@ -231,4 +248,9 @@ resource "aws_nat_gateway" "this" {
 
   allocation_id = aws_eip.natgw[each.key].id
   subnet_id     = aws_subnet.public[each.key].id
+  tags = {
+    Name = "${var.base_name}-natgw-${local.aws_az_names[index(local.aws_az_ids, each.key)]}"
+    AvailabilityZone   = local.aws_az_names[index(local.aws_az_ids, each.key)]
+    AvailabilityZoneID = each.key
+  }
 }
