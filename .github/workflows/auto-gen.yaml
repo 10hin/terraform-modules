@@ -41,7 +41,7 @@ jobs:
             | sort -u \
             | while read path_module
               do
-                terraform-docs markdown table --output-file "${path_module}/API.md" "${path_module}"
+                terraform-docs markdown table --output-file "${path_module}/API.md" --output-mode replace "${path_module}"
               done
       - name: commit for generated docs
         uses: ./.github/actions/commit-push-if-changed
