@@ -7,6 +7,9 @@ defaults:
   run:
     shell: bash
 
+permissions:
+  content: write
+
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -28,6 +31,7 @@ jobs:
             git config user.name 'github-actions[bot]'
             git add .
             git commit -m 'apply terraform fmt'
+            git push
           fi
       - name: generate API.md
         # terraform-docs/gh-actions@1.4.0 at 2025-05-09
