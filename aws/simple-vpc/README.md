@@ -2,4 +2,4 @@
 
 ## API Reference
 
-[[API.md]]
+[API.md](API.md)
