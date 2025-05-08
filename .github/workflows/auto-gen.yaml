@@ -17,14 +17,14 @@ jobs:
       - name: Set up terraform
         # actions/setup-terraform@v3.1.2 at 2025-05-09
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
+      - name: Checkout code
+        # actions/checkout@v4.2.2 at 2025-05-09
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Set up terraform-docs
         uses: ./.github/actions/setup-terraform-docs
         with:
           release: v0.20.0
           release-commit: cf462c5da36feb66051cf0a6f1124594ed9adc7c
-      - name: Checkout code
-        # actions/checkout@v4.2.2 at 2025-05-09
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: format
         run: terraform fmt -recursive
       - name: commit for format
