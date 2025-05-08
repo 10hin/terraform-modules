@@ -37,6 +37,7 @@ jobs:
       - name: generate API.md
         run: |
           find . -name '*.tf' -not -path '*/.terraform/*' \
+            | xargs dirname \
             | sort -u \
             | while read path_module
               do
