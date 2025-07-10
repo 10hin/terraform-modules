@@ -34,14 +34,14 @@ jobs:
           commit-user-name: github-actions[bot]
           commit-user-email: github-actions[bot]@users.noreply.github.com
           commit-message: apply terraform fmt
-      - name: generate API.md
+      - name: generate or update README.md
         run: |
           find . -name '*.tf' -not -path '*/.terraform/*' \
             | xargs dirname \
             | sort -u \
             | while read path_module
               do
-                terraform-docs markdown table --output-file API.md --output-mode replace "${path_module}"
+                terraform-docs markdown table --output-file README.md "${path_module}"
               done
       - name: commit for generated docs
         uses: ./.github/actions/commit-push-if-changed
