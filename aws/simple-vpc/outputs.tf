@@ -69,3 +69,24 @@ output "az_id_to_public_subnet_id" {
   value       = zipmap(local.aws_az_ids, [for az_id in local.aws_az_ids : aws_subnet.public[az_id].id])
   description = "A map of availability zone IDs to public subnet IDs."
 }
+
+output "default_route_table_id" {
+  value       = aws_vpc.this.default_route_table_id
+  description = "The ID of the default route table (not used) for the VPC"
+}
+
+output "public_route_table_ids" {
+  value = [
+    for az_id in local.aws_az_ids :
+    aws_route_table.public[az_id].id
+  ]
+  description = "The IDs of the public route tables"
+}
+
+output "private_route_table_ids" {
+  value = [
+    for az_id in local.aws_az_ids :
+    aws_route_table.private[az_id].id
+  ]
+  description = "The IDs of the private route tables"
+}
