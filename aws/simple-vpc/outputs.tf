@@ -41,6 +41,7 @@ output "private_subnet_ids" {
     for az_id in local.aws_az_ids :
     aws_subnet.private[az_id].id
   ]
+  description = "The list of IDs of the private subnets."
 }
 
 output "private_subnet_id_to_az_id" {
@@ -58,6 +59,7 @@ output "public_subnet_ids" {
     for az_id in local.aws_az_ids :
     aws_subnet.public[az_id].id
   ]
+  description = "The list of IDs of the public subnets."
 }
 
 output "public_subnet_id_to_az_id" {

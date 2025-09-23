@@ -93,9 +93,9 @@ No modules.
 | <a name="output_nat_gateway_ids"></a> [nat\_gateway\_ids](#output\_nat\_gateway\_ids) | The IDs of the NAT Gateways |
 | <a name="output_private_route_table_ids"></a> [private\_route\_table\_ids](#output\_private\_route\_table\_ids) | The IDs of the private route tables |
 | <a name="output_private_subnet_id_to_az_id"></a> [private\_subnet\_id\_to\_az\_id](#output\_private\_subnet\_id\_to\_az\_id) | A map of private subnet IDs to availability zone IDs. |
-| <a name="output_private_subnet_ids"></a> [private\_subnet\_ids](#output\_private\_subnet\_ids) | n/a |
+| <a name="output_private_subnet_ids"></a> [private\_subnet\_ids](#output\_private\_subnet\_ids) | The list of IDs of the private subnets. |
 | <a name="output_public_route_table_ids"></a> [public\_route\_table\_ids](#output\_public\_route\_table\_ids) | The IDs of the public route tables |
 | <a name="output_public_subnet_id_to_az_id"></a> [public\_subnet\_id\_to\_az\_id](#output\_public\_subnet\_id\_to\_az\_id) | A map of public subnet IDs to availability zone IDs. |
-| <a name="output_public_subnet_ids"></a> [public\_subnet\_ids](#output\_public\_subnet\_ids) | n/a |
+| <a name="output_public_subnet_ids"></a> [public\_subnet\_ids](#output\_public\_subnet\_ids) | The list of IDs of the public subnets. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC |
 <!-- END_TF_DOCS -->
