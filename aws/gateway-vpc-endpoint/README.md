@@ -19,8 +19,8 @@ flowchart TB
     end
     class subnet2 dottedBorder;
     vpce["VPC Endpoint"]
-    rt1 -...-> vpce
-    rt2 -...-> vpce
+    rt1 -.-> vpce
+    rt2 -.-> vpce
   end
   class vpc dottedBorder;
 ```
