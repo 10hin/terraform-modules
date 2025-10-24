@@ -15,6 +15,133 @@ This module creates:
   - Private subnets have default route to NAT Gateway.
 - Default SecurityGroup/NetworkACL/RouteTable entries will be cleared
 
+## Diagram
+
+### `nat_gateway_allocation = "ha"`
+
+```mermaid
+flowchart TB
+  subgraph legend
+    direction RL
+    legend_rt([Route Table]) -. "Route" .-> legend_rt_target[Target]
+  end
+  subgraph region
+    subgraph VPC
+      direction RL
+      subgraph zone3
+        subgraph public3
+          pubrt3(["public Route Table 3"])
+          pubnacl3(["public Network ACL 3"])
+          eip3["Elastic IP 3"]
+          natgw3["NAT Gateway 3"]
+          natgw3 -.- eip3
+        end
+        subgraph private3
+          pvtrt3(["private Route Table 3"])
+          pvtnacl3(["private Network ACL 3"])
+        end
+        pvtrt3 -...->|"0.0.0.0/0"| natgw3
+      end
+      subgraph zone2
+        subgraph public2
+          pubrt2(["public Route Table 2"])
+          pubnacl2(["public Network ACL 2"])
+          eip2["Elastic IP 2"]
+          natgw2["NAT Gateway 2"]
+          natgw2 -.- eip2
+        end
+        subgraph private2
+          pvtrt2(["private Route Table 2"])
+          pvtnacl2(["private Network ACL 2"])
+        end
+        pvtrt2 -...->|"0.0.0.0/0"| natgw2
+      end
+      subgraph zone1
+        subgraph public1
+          pubrt1(["public Route Table 1"])
+          pubnacl1(["public Network ACL 1"])
+          eip1["Elastic IP 1"]
+          natgw1["NAT Gateway 1"]
+          natgw1 -.- eip1
+        end
+        subgraph private1
+          pvtrt1(["private Route Table 1"])
+          pvtnacl1(["private Network ACL 1"])
+        end
+        pvtrt1 -...->|"0.0.0.0/0"| natgw1
+      end
+      igw["Internet Gateway"]
+      pubrt1 -...->|"0.0.0.0/0"| igw
+      pubrt2 -...->|"0.0.0.0/0"| igw
+      pubrt3 -...->|"0.0.0.0/0"| igw
+      defrt(["default Route Table"])
+      defnacl(["default Network ACL"])
+      defsg(["default Security Group"])
+    end
+  end
+```
+
+### `nat_gateway_allocation = "single"`
+
+```mermaid
+flowchart TB
+  subgraph legend
+    direction RL
+    legend_rt([Route Table]) -. "Route" .-> legend_rt_target[Target]
+  end
+  subgraph region
+    subgraph VPC
+      direction RL
+      subgraph zone3
+        subgraph public3
+          pubrt3(["public Route Table 3"])
+          pubnacl3(["public Network ACL 3"])
+        end
+        subgraph private3
+          pvtrt3(["private Route Table 3"])
+          pvtnacl3(["private Network ACL 3"])
+        end
+        pvtrt3 ~~~~~ pubrt3
+      end
+      subgraph zone2
+        subgraph public2
+          pubrt2(["public Route Table 2"])
+          pubnacl2(["public Network ACL 2"])
+        end
+        subgraph private2
+          pvtrt2(["private Route Table 2"])
+          pvtnacl2(["private Network ACL 2"])
+        end
+        pvtrt2 ~~~~~ pubrt2
+      end
+      subgraph zone1
+        subgraph public1
+          pubrt1(["public Route Table 1"])
+          pubnacl1(["public Network ACL 1"])
+          eip["Elastic IP"]
+          natgw["NAT Gateway"]
+          natgw -.- eip
+        end
+        subgraph private1
+          pvtrt1(["private Route Table 1"])
+          pvtnacl1(["private Network ACL 1"])
+        end
+        pvtrt1 ~~~~~ pubrt1
+      end
+      pvtrt1 -...->|"0.0.0.0/0"| natgw
+      pvtrt2 -...->|"0.0.0.0/0"| natgw
+      pvtrt3 -...->|"0.0.0.0/0"| natgw
+      igw["Internet Gateway"]
+      pubrt1 -...->|"0.0.0.0/0"| igw
+      pubrt2 -...->|"0.0.0.0/0"| igw
+      pubrt3 -...->|"0.0.0.0/0"| igw
+      defrt(["default Route Table"])
+      defnacl(["default Network ACL"])
+      defsg(["default Security Group"])
+    end
+  end
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
