@@ -1,8 +1,9 @@
 resource "aws_vpc_endpoint" "this" {
-  vpc_id            = var.vpc_id
-  service_name      = var.service_name
-  vpc_endpoint_type = "Interface"
-  policy            = var.policy
+  vpc_id              = var.vpc_id
+  service_name        = var.service_name
+  vpc_endpoint_type   = "Interface"
+  policy              = var.policy
+  private_dns_enabled = var.private_dns_enabled
   tags = {
     Name = var.base_name
   }

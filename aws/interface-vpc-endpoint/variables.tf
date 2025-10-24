@@ -24,3 +24,9 @@ variable "policy" {
   description = "The policy document for the VPC endpoint."
   default     = "{}"
 }
+
+variable "private_dns_enabled" {
+  type        = bool
+  description = "Indicates whether to associate a private DNS name with the endpoint."
+  default     = true
+}

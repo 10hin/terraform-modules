@@ -60,6 +60,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_base_name"></a> [base\_name](#input\_base\_name) | The base name for the resources. | `string` | `"mynetwork"` | no |
 | <a name="input_policy"></a> [policy](#input\_policy) | The policy document for the VPC endpoint. | `string` | `"{}"` | no |
+| <a name="input_private_dns_enabled"></a> [private\_dns\_enabled](#input\_private\_dns\_enabled) | Indicates whether to associate a private DNS name with the endpoint. | `bool` | `true` | no |
 | <a name="input_service_name"></a> [service\_name](#input\_service\_name) | The name of the AWS service for the VPC endpoint (e.g., com.amazonaws.us-west-2.s3). | `string` | n/a | yes |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Map of subnet IDs (may be unknown at plan time) with arbitrary keys (must be known at plan time). | `map(string)` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of the VPC where the endpoint will be created. | `string` | n/a | yes |
