@@ -1,6 +1,6 @@
 # `aws/interface-vpc-endpoint`
 
-Create VPC Endpoint with type "Interface".
+Create VPC Endpoint with type "Interface" and Security Group for it.
 
 ## Diagram
 
@@ -40,7 +40,6 @@ flowchart TB
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
-| <a name="provider_awsp"></a> [awsp](#provider\_awsp) | n/a |
 
 ## Modules
 
@@ -52,8 +51,8 @@ No modules.
 |------|------|
 | aws_security_group.this | resource |
 | aws_vpc_endpoint.this | resource |
+| aws_vpc_endpoint_security_group_association.this | resource |
 | aws_vpc_endpoint_subnet_association.this | resource |
-| [awsp_vpc_endpoint_security_group_association.this](https://registry.terraform.io/providers/hashicorp/awsp/latest/docs/resources/vpc_endpoint_security_group_association) | resource |
 
 ## Inputs
 

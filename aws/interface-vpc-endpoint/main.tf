@@ -13,7 +13,7 @@ resource "aws_security_group" "this" {
   vpc_id = var.vpc_id
 }
 
-resource "awsp_vpc_endpoint_security_group_association" "this" {
+resource "aws_vpc_endpoint_security_group_association" "this" {
   for_each = var.subnet_ids
 
   vpc_endpoint_id   = aws_vpc_endpoint.this.id
