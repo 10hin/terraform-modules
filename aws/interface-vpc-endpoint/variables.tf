@@ -5,7 +5,7 @@ variable "base_name" {
 }
 
 variable "service_name" {
-  type = string
+  type        = string
   description = "The name of the AWS service for the VPC endpoint (e.g., com.amazonaws.us-west-2.s3)."
 }
 
@@ -15,12 +15,12 @@ variable "vpc_id" {
 }
 
 variable "subnet_ids" {
-  type = map(string)
+  type        = map(string)
   description = "Map of subnet IDs (may be unknown at plan time) with arbitrary keys (must be known at plan time)."
 }
 
 variable "policy" {
-  type = string
+  type        = string
   description = "The policy document for the VPC endpoint."
   default     = "{}"
 }
