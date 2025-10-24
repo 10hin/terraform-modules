@@ -27,6 +27,6 @@ resource "aws_vpc_endpoint_subnet_association" "this" {
   vpc_endpoint_id = aws_vpc_endpoint.this.id
   subnet_id       = each.value
   depends_on = [
-    awsp_vpc_endpoint_security_group_association.this,
+    aws_vpc_endpoint_security_group_association.this,
   ]
 }
