@@ -4,6 +4,26 @@ Create VPC Endpoint with type "Gateway".
 
 ## Diagram
 
+```mermaid
+flowchart TB
+  classDef dottedBorder stroke-dasharray: 2 2;
+  subgraph vpc
+    subgraph subnet1
+      rt1(["Route Table 1"])
+      class rt1 dottedBorder;
+    end
+    class subnet1 dottedBorder;
+    subgraph subnet2
+      rt2(["Route Table 2"])
+      class rt2 dottedBorder;
+    end
+    class subnet2 dottedBorder;
+    vpce["VPC Endpoint"]
+    rt1 -...-> vpce
+    rt2 -...-> vpce
+  end
+  class vpc dottedBorder;
+```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
